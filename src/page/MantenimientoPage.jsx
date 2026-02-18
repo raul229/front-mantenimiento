@@ -6,8 +6,30 @@ import { getVehiculos } from "../service/VehiculoService";
 
 export function MantenimientoPage() {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    const [editando, setEditando] = useState(false)
+
+    const ocultarModal = () => setShow(false);
+    const mostrarModal = () => setShow(true);
+
+    const formularioInicial = {
+        tipo_mantenimiento: "",
+        descripcion: "",
+        costo: "",
+        fecha_inicio: "",
+        fecha_fin: "",
+        proveedor: "",
+        vehiculo: "",
+        fallas: []
+    }
+
+    const [formulario, setFormulario] = useState(formularioInicial)
+
+    const limpiarFormulario = () => {
+
+        setFormulario(formularioInicial)
+
+    }
 
     const [mantenimientos, setMantenimientos] = useState([]);
     const [fallas, setFallas] = useState([]);
@@ -28,10 +50,19 @@ export function MantenimientoPage() {
         setVehiculos(data)
     }
 
+    const editar = (m) => {
+        mostrarModal()
+        setEditando(true)
+        setFormulario(m)
+
+    }
+
+
+
     useEffect(() => {
 
 
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+
         cargarMantenimientos()
         cargarFallas()
         cargarVehiculos()
@@ -42,7 +73,11 @@ export function MantenimientoPage() {
         <>
             <h1 className="mb-3">Mantenimientos</h1>
 
-            <Button className="mb-3" onClick={handleShow}>
+            <Button className="mb-3" onClick={() => {
+                limpiarFormulario()
+                setEditando(false)
+                mostrarModal()
+            }}>
                 Nuevo
             </Button>
 
@@ -82,7 +117,10 @@ export function MantenimientoPage() {
 
                                     }
                                 </td>
-                                <td><Button className="me-3" variant="warning">Editar</Button><Button variant="danger">Eliminar</Button></td>
+                                <td>
+                                    <Button className="me-3" variant="warning" onClick={() => editar(mantenimiento)}>Editar</Button>
+                                    <Button variant="danger">Eliminar</Button>
+                                </td>
                             </tr>
 
                         ))
@@ -91,9 +129,9 @@ export function MantenimientoPage() {
                 </tbody>
             </Table>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={ocultarModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Nuevo mantenimiento</Modal.Title>
+                    <Modal.Title>{editando ? "Editar" : 'Nuevo '} mantenimiento</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -112,37 +150,41 @@ export function MantenimientoPage() {
                             <Form.Label>
                                 Descripcion
                             </Form.Label>
-                            <Form.Control type="text" placeholder="Descripcion..." />
+                            <Form.Control
+                                value={formulario.descripcion}
+                                type="text"
+                                placeholder="Descripcion..."
+                            />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Costo
                             </Form.Label>
-                            <Form.Control type="number" />
+                            <Form.Control value={formulario.costo} type="number" />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Fecha Inicio
                             </Form.Label>
-                            <Form.Control type="date" />
+                            <Form.Control value={formulario.fecha_inicio} type="date" />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Fecha Fin
                             </Form.Label>
-                            <Form.Control type="date" />
+                            <Form.Control value={formulario.fecha_fin} type="date" />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Proveedor
                             </Form.Label>
-                            <Form.Control type="text" placeholder="Descripcion..." />
+                            <Form.Control value={formulario.proveedor} type="text" placeholder="Descripcion..." />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Vehiculo
                             </Form.Label>
-                            <Form.Select  >
+                            <Form.Select value={formulario.vehiculo}>
                                 <option>Seleccione</option>
                                 {
                                     vehiculos.map((vehiculo) => (
@@ -157,7 +199,7 @@ export function MantenimientoPage() {
                             <Form.Label>
                                 Fallas
                             </Form.Label>
-                            <Form.Select multiple >
+                            <Form.Select multiple value={formulario.fallas} >
                                 {
                                     fallas.map((falla) => (
                                         <option key={falla.id} value={falla.id} >{falla.descripcion}</option>
@@ -168,12 +210,10 @@ export function MantenimientoPage() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-
-
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={ocultarModal}>
                         Cerrar
                     </Button>
-                    <Button type="submit" variant="primary" onClick={handleClose}>
+                    <Button type="submit" variant="primary" onClick={ocultarModal}>
                         Guardar
                     </Button>
                 </Modal.Footer>
