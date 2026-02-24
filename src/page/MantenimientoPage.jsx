@@ -61,8 +61,7 @@ export function MantenimientoPage() {
 
     useEffect(() => {
 
-
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         cargarMantenimientos()
         cargarFallas()
         cargarVehiculos()
@@ -152,6 +151,7 @@ export function MantenimientoPage() {
                             </Form.Label>
                             <Form.Control
                                 value={formulario.descripcion}
+                                onChange={(e) => { setFormulario({ ...formulario, descripcion: e.target.value }) }}
                                 type="text"
                                 placeholder="Descripcion..."
                             />
@@ -160,37 +160,53 @@ export function MantenimientoPage() {
                             <Form.Label>
                                 Costo
                             </Form.Label>
-                            <Form.Control value={formulario.costo} type="number" />
+                            <Form.Control
+                                onChange={(e) => { setFormulario({ ...formulario, costo: e.target.value }) }}
+                                value={formulario.costo} type="number"
+
+                            />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Fecha Inicio
                             </Form.Label>
-                            <Form.Control value={formulario.fecha_inicio} type="date" />
+                            <Form.Control
+                                value={formulario.fecha_inicio} type="date"
+                                onChange={(e) => { setFormulario({ ...formulario, fecha_inicio: e.target.value }) }}
+                            />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Fecha Fin
                             </Form.Label>
-                            <Form.Control value={formulario.fecha_fin} type="date" />
+                            <Form.Control
+                                value={formulario.fecha_fin}
+                                onChange={(e) => { setFormulario({ ...formulario, fecha_fin: e.target.value }) }}
+                                type="date" />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Proveedor
                             </Form.Label>
-                            <Form.Control value={formulario.proveedor} type="text" placeholder="Descripcion..." />
+                            <Form.Control
+                                value={formulario.proveedor}
+                                onChange={(e) => { setFormulario({ ...formulario, proveedor: e.target.value }) }}
+                                type="text"
+                                placeholder="Descripcion..."
+                            />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
                                 Vehiculo
                             </Form.Label>
-                            <Form.Select value={formulario.vehiculo}>
+                            <Form.Select
+                                value={formulario.vehiculo}
+                                onChange={(e) => { setFormulario({ ...formulario, vehiculo: e.target.value }) }}
+                            >
                                 <option>Seleccione</option>
                                 {
                                     vehiculos.map((vehiculo) => (
-
-                                        < option key={vehiculo.id} value={vehiculo.id} >{vehiculo.marca}   {vehiculo.placa}</option>
-
+                                        < option key={vehiculo.id} value={vehiculo.id} >{vehiculo.marca} {vehiculo.placa}</option>
                                     ))
                                 }
                             </Form.Select>
@@ -199,7 +215,11 @@ export function MantenimientoPage() {
                             <Form.Label>
                                 Fallas
                             </Form.Label>
-                            <Form.Select multiple value={formulario.fallas} >
+                            <Form.Select
+                                multiple={true}
+                                value={formulario.fallas}
+                                onChange={(e) => { setFormulario({ ...formulario, fallas: Array.from(e.target.selectedOptions, option => option.value) }) }}
+                            >
                                 {
                                     fallas.map((falla) => (
                                         <option key={falla.id} value={falla.id} >{falla.descripcion}</option>
