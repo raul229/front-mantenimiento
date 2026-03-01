@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { getMantenimientos } from "../service/MantenimientoService";
+import { getMantenimientos, createMantenimiento, updateMantenimiento, deleteMantenimiento } from "../service/MantenimientoService";
 import { getFallas } from "../service/FallaService";
 import { getVehiculos } from "../service/VehiculoService";
 
@@ -34,6 +34,21 @@ export function MantenimientoPage() {
     const [mantenimientos, setMantenimientos] = useState([]);
     const [fallas, setFallas] = useState([]);
     const [vehiculos, setVehiculos] = useState([]);
+
+    const guardar = async () => {
+        if (editando) {
+            await updateMantenimiento(formulario.id, formulario)
+        } else {
+            await createMantenimiento(formulario)
+        }
+        ocultarModal()
+        cargarMantenimientos()
+    }
+
+    const eliminar = async (id) => {
+        await deleteMantenimiento(id)
+        cargarMantenimientos()
+    }
 
     const cargarMantenimientos = async () => {
         const { data } = await getMantenimientos()
@@ -118,7 +133,13 @@ export function MantenimientoPage() {
                                 </td>
                                 <td>
                                     <Button className="me-3" variant="warning" onClick={() => editar(mantenimiento)}>Editar</Button>
-                                    <Button variant="danger">Eliminar</Button>
+                                    <Button variant="danger" onClick={() => {
+                                        if (window.confirm("¿Estas seguro de eliminar el mantenimiento?")) {
+                                            eliminar(mantenimiento.id)
+                                        }
+                                    }}>
+                                        Eliminar
+                                    </Button>
                                 </td>
                             </tr>
 
@@ -138,10 +159,13 @@ export function MantenimientoPage() {
                             <Form.Label>
                                 Tipo de mantenimiento
                             </Form.Label>
-                            <Form.Select>
-                                <option>Seleccione</option>
+                            <Form.Select
+                                value={formulario.tipo_mantenimiento}
+                                onChange={(e) => { setFormulario({ ...formulario, tipo_mantenimiento: e.target.value }) }}
+                            >
+                                <option value="">Seleccione</option>
                                 <option value="preventivo" >Preventivo</option>
-                                <option value="correlativo" >Correctivo</option>
+                                <option value="correctivo" >Correctivo</option>
 
                             </Form.Select>
                         </Form.Group>
@@ -161,7 +185,7 @@ export function MantenimientoPage() {
                                 Costo
                             </Form.Label>
                             <Form.Control
-                                onChange={(e) => { setFormulario({ ...formulario, costo: e.target.value }) }}
+                                onChange={(e) => { setFormulario({ ...formulario, costo: Number(e.target.value) }) }}
                                 value={formulario.costo} type="number"
 
                             />
@@ -201,9 +225,9 @@ export function MantenimientoPage() {
                             </Form.Label>
                             <Form.Select
                                 value={formulario.vehiculo}
-                                onChange={(e) => { setFormulario({ ...formulario, vehiculo: e.target.value }) }}
+                                onChange={(e) => { setFormulario({ ...formulario, vehiculo: Number(e.target.value) || "" }) }}
                             >
-                                <option>Seleccione</option>
+                                <option value="">Seleccione</option>
                                 {
                                     vehiculos.map((vehiculo) => (
                                         < option key={vehiculo.id} value={vehiculo.id} >{vehiculo.marca} {vehiculo.placa}</option>
@@ -218,7 +242,7 @@ export function MantenimientoPage() {
                             <Form.Select
                                 multiple={true}
                                 value={formulario.fallas}
-                                onChange={(e) => { setFormulario({ ...formulario, fallas: Array.from(e.target.selectedOptions, option => option.value) }) }}
+                                onChange={(e) => { setFormulario({ ...formulario, fallas: Array.from(e.target.selectedOptions, option => Number(option.value)) }) }}
                             >
                                 {
                                     fallas.map((falla) => (
@@ -233,7 +257,7 @@ export function MantenimientoPage() {
                     <Button variant="secondary" onClick={ocultarModal}>
                         Cerrar
                     </Button>
-                    <Button type="submit" variant="primary" onClick={ocultarModal}>
+                    <Button type="submit" variant="primary" onClick={guardar}>
                         Guardar
                     </Button>
                 </Modal.Footer>
