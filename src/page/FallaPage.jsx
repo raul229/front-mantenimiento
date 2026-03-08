@@ -1,0 +1,179 @@
+import { useEffect, useState } from "react";
+import { Button, Form, Modal, Table } from "react-bootstrap";
+import { getFallas, createFalla, updateFalla, deleteFalla } from "../service/FallaService";
+
+export function FallaPage() {
+  const [fallas, setFallas] = useState([]);
+  const [show, setShow] = useState(false);
+  const [editando, setEditando] = useState(false);
+  const [formulario, setFormulario] = useState({
+    descripcion: "",
+  });
+
+  const ocultarModal = () => setShow(false);
+  const mostrarModal = () => setShow(true);
+
+  const limpiarFormulario = () => {
+    setFormulario({
+      descripcion: "",
+    });
+  };
+
+  const cargarFallas = async () => {
+    const { data } = await getFallas();
+    setFallas(data);
+  };
+
+  const guardar = async () => {
+    if (editando) {
+      await updateFalla(formulario.id, formulario);
+    } else {
+      await createFalla(formulario);
+    }
+    ocultarModal();
+    cargarFallas();
+  };
+
+  const eliminar = async (id) => {
+    await deleteFalla(id);
+    cargarFallas();
+  };
+
+  const editar = (falla) => {
+    mostrarModal();
+    setEditando(true);
+    setFormulario(falla);
+  };
+
+  useEffect(() => {
+    cargarFallas();
+  }, []);
+
+  return (
+    <>
+      <h1>Fallas</h1>
+      <Button
+        className="mb-3"
+
+        onClick={() => {
+          limpiarFormulario();
+          setEditando(false);
+          mostrarModal();
+        }}>
+        Nuevo</Button>
+      <Table hover striped bordered>
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Descripcion</th>
+            <th>Fecha Reportado</th>
+            <th>Fecha Solucionado</th>
+            <th>Vehiculo</th>
+            <th>Usuario que reporta</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {fallas.map((falla) => (
+            <tr key={falla.id}>
+              <td>{falla.estado}</td>
+              <td>{falla.prioridad}</td>
+              <td>{falla.descripcion}</td>
+              <td>{falla.fecha_reportado}</td>
+              <td>{falla.fecha_solucionado}</td>
+              <td>{falla.vehiculo}</td>
+              <td>{falla.usuario_reporta}</td>
+              <td>
+                <Button className="me-3" variant="warning" onClick={() => editar(falla)}>Editar</Button>
+                <Button variant="danger" onClick={() => {
+                  if (window.confirm("¿Estas seguro de eliminar la falla?")) {
+                    eliminar(falla.id)
+                  }
+                }}>
+                  Eliminar
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <Modal show={show} onHide={ocultarModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editando ? "Editar" : "Nueva"} Falla</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Descripcion</Form.Label>
+              <Form.Control
+                value={formulario.descripcion}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, descripcion: e.target.value });
+                }}
+                type="text"
+                placeholder="Descripcion..."
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Fecha Reportado</Form.Label>
+              <Form.Control
+                value={formulario.fecha_reportado}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, fecha_reportado: e.target.value });
+                }}
+                type="date"
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Fecha Solucionado</Form.Label>
+              <Form.Control
+                value={formulario.fecha_solucionado}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, fecha_solucionado: e.target.value });
+                }}
+                type="date"
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Vehiculo</Form.Label>
+              <Form.Control
+                value={formulario.vehiculo}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, vehiculo: e.target.value });
+                }}
+                type="text"
+                placeholder="Vehiculo..."
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Usuario que reporta</Form.Label>
+              <Form.Control
+                value={formulario.usuario_reporta}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, usuario_reporta: e.target.value });
+                }}
+                type="text"
+                placeholder="Usuario que reporta..."
+                required
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={ocultarModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={guardar}>
+            Guardar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
