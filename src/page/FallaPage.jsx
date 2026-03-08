@@ -2,23 +2,30 @@ import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { getFallas, createFalla, updateFalla, deleteFalla } from "../service/FallaService";
 import { useVehiculos } from "../context/VehiculoContext";
+import { guardarEntidad } from "../utils/guardarEntidad";
 
 export function FallaPage() {
   const [fallas, setFallas] = useState([]);
   const [show, setShow] = useState(false);
   const [editando, setEditando] = useState(false);
-  const [formulario, setFormulario] = useState({
-    descripcion: "",
-  });
+  const [formulario, setFormulario] = useState(formularioInicial);
   const { vehiculos } = useVehiculos();
 
   const ocultarModal = () => setShow(false);
   const mostrarModal = () => setShow(true);
 
+  const formularioInicial = {
+    descripcion: "",
+    fecha_reportado: "",
+    fecha_solucionado: "",
+    vehiculo: "",
+    usuario_reporta: "",
+    estado: "",
+    prioridad: "",
+  };
+
   const limpiarFormulario = () => {
-    setFormulario({
-      descripcion: "",
-    });
+    setFormulario(formularioInicial);
   };
 
   const cargarFallas = async () => {
@@ -26,14 +33,16 @@ export function FallaPage() {
     setFallas(data);
   };
 
-  const guardar = async () => {
-    if (editando) {
-      await updateFalla(formulario.id, formulario);
-    } else {
-      await createFalla(formulario);
-    }
-    ocultarModal();
-    cargarFallas();
+  const guardar = () => {
+    guardarEntidad({
+      editando,
+      formulario,
+      create: createFalla,
+      update: updateFalla,
+      recargarDatos: cargarFallas,
+      ocultarModal,
+    });
+
   };
 
   const eliminar = async (id) => {

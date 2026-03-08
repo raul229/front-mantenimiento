@@ -8,6 +8,7 @@ import {
 } from "../service/MantenimientoService";
 import { getFallas } from "../service/FallaService";
 import { useVehiculos } from "../context/VehiculoContext";
+import { guardarEntidad } from "../utils/guardarEntidad";
 
 export function MantenimientoPage() {
   const [show, setShow] = useState(false);
@@ -38,14 +39,15 @@ export function MantenimientoPage() {
   const [fallas, setFallas] = useState([]);
   const { vehiculos } = useVehiculos();
 
-  const guardar = async () => {
-    if (editando) {
-      await updateMantenimiento(formulario.id, formulario);
-    } else {
-      await createMantenimiento(formulario);
-    }
-    ocultarModal();
-    cargarMantenimientos();
+  const guardar = () => {
+    guardarEntidad({
+      editando,
+      formulario,
+      create: createMantenimiento,
+      update: updateMantenimiento,
+      recargarDatos: cargarMantenimientos,
+      ocultarModal,
+    });
   };
 
   const eliminar = async (id) => {
