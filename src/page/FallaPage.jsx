@@ -8,7 +8,6 @@ export function FallaPage() {
   const [fallas, setFallas] = useState([]);
   const [show, setShow] = useState(false);
   const [editando, setEditando] = useState(false);
-  const [formulario, setFormulario] = useState(formularioInicial);
   const { vehiculos } = useVehiculos();
 
   const ocultarModal = () => setShow(false);
@@ -24,6 +23,7 @@ export function FallaPage() {
     prioridad: "",
   };
 
+  const [formulario, setFormulario] = useState(formularioInicial);
   const limpiarFormulario = () => {
     setFormulario(formularioInicial);
   };
@@ -119,6 +119,36 @@ export function FallaPage() {
         <Modal.Body>
           <Form>
             <Form.Group>
+              <Form.Label>Estado</Form.Label>
+              <Form.Select
+                value={formulario.estado}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, estado: e.target.value });
+                }}
+                required
+              >
+                <option value="">Seleccione</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="solucionado">Solucionado</option>
+              </Form.Select>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Prioridad</Form.Label>
+              <Form.Select
+                value={formulario.prioridad}
+                onChange={(e) => {
+                  setFormulario({ ...formulario, prioridad: e.target.value });
+                }}
+                required
+              >
+                <option value="">Seleccione</option>
+                <option value="critica">Critica</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
+              </Form.Select>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Descripcion</Form.Label>
               <Form.Control
                 value={formulario.descripcion}
@@ -157,7 +187,7 @@ export function FallaPage() {
               <Form.Select
                 value={formulario.vehiculo}
                 onChange={(e) => {
-                  setFormulario({ ...formulario, vehiculo: e.target.value });
+                  setFormulario({ ...formulario, vehiculo: Number(e.target.value) || "" });
                 }}
                 required
               >
@@ -174,7 +204,7 @@ export function FallaPage() {
               <Form.Control
                 value={formulario.usuario_reporta}
                 onChange={(e) => {
-                  setFormulario({ ...formulario, usuario_reporta: e.target.value });
+                  setFormulario({ ...formulario, usuario_reporta: Number(e.target.value) || "" });
                 }}
                 type="text"
                 placeholder="Usuario que reporta..."
