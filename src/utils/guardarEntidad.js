@@ -1,9 +1,9 @@
-export const guardarEntidad =  async  ({editando, formulario, create, update, regargarDatos, ocultarModal}) => {
-    if (editando) {
+export const guardarEntidad = async ({ editando, formulario, create, update, recargarDatos, ocultarModal }) => {
+  if (editando) {
     await update(formulario.id, formulario);
-    } else {
-      await create(formulario);
-    }
-    ocultarModal();
-    regargarDatos();
-  };
+  } else {
+    await create(formulario);
+  }
+  ocultarModal();
+  recargarDatos();
+};

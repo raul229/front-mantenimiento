@@ -4,6 +4,7 @@ import { HomePage } from "./page/HomePage";
 import { MantenimientoPage } from "./page/MantenimientoPage";
 import { FallaPage } from "./page/FallaPage";
 import { VehiculosProvider } from "./context/VehiculoContext";
+import { VehiculoPage } from "./page/VehiculoPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/mantenimientos" element={<MantenimientoPage />} />
           <Route path="/fallas" element={<FallaPage />} />
+          <Route path="/vehiculos" element={<VehiculoPage />} />
         </Route>
       </Routes>
     </VehiculosProvider>

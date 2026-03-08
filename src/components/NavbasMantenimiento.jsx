@@ -21,6 +21,9 @@ export function NavbarMantenimiento() {
               <NavDropdown.Item as={Link} to="/fallas">
                 Fallas
               </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/vehiculos">
+                Vehiculos
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

@@ -16,7 +16,7 @@ export function VehiculosProvider({ children }) {
     };
 
     return (
-        <Vehiculocontext.Provider value={{ vehiculos }}>
+        <Vehiculocontext.Provider value={{ vehiculos, cargarVehiculos }}>
             {children}
         </Vehiculocontext.Provider>
     );
