@@ -3,16 +3,19 @@ import { Layout } from "./layout/Layout";
 import { HomePage } from "./page/HomePage";
 import { MantenimientoPage } from "./page/MantenimientoPage";
 import { FallaPage } from "./page/FallaPage";
+import { VehiculosProvider } from "./context/VehiculoContext";
 
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/mantenimientos" element={<MantenimientoPage />} />
-        <Route path="/fallas" element={<FallaPage />} />
-      </Route>
-    </Routes>
+    <VehiculosProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mantenimientos" element={<MantenimientoPage />} />
+          <Route path="/fallas" element={<FallaPage />} />
+        </Route>
+      </Routes>
+    </VehiculosProvider>
   );
 }
 

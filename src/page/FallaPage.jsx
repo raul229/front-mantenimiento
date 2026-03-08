@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { getFallas, createFalla, updateFalla, deleteFalla } from "../service/FallaService";
+import { useVehiculos } from "../context/VehiculoContext";
 
 export function FallaPage() {
   const [fallas, setFallas] = useState([]);
@@ -9,6 +10,7 @@ export function FallaPage() {
   const [formulario, setFormulario] = useState({
     descripcion: "",
   });
+  const { vehiculos } = useVehiculos();
 
   const ocultarModal = () => setShow(false);
   const mostrarModal = () => setShow(true);
@@ -82,7 +84,9 @@ export function FallaPage() {
               <td>{falla.descripcion}</td>
               <td>{falla.fecha_reportado}</td>
               <td>{falla.fecha_solucionado}</td>
-              <td>{falla.vehiculo}</td>
+              <td>{
+                vehiculos.find((v) => v.id === falla.vehiculo)?.marca
+              }</td>
               <td>{falla.usuario_reporta}</td>
               <td>
                 <Button className="me-3" variant="warning" onClick={() => editar(falla)}>Editar</Button>
@@ -141,15 +145,20 @@ export function FallaPage() {
             </Form.Group>
             <Form.Group>
               <Form.Label>Vehiculo</Form.Label>
-              <Form.Control
+              <Form.Select
                 value={formulario.vehiculo}
                 onChange={(e) => {
                   setFormulario({ ...formulario, vehiculo: e.target.value });
                 }}
-                type="text"
-                placeholder="Vehiculo..."
                 required
-              />
+              >
+                <option value="">Seleccione</option>
+                {vehiculos.map((vehiculo) => (
+                  <option key={vehiculo.id} value={vehiculo.id}>
+                    {vehiculo.marca} {vehiculo.placa}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
             <Form.Group>
               <Form.Label>Usuario que reporta</Form.Label>

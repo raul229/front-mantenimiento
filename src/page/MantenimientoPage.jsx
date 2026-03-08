@@ -7,7 +7,7 @@ import {
   deleteMantenimiento,
 } from "../service/MantenimientoService";
 import { getFallas } from "../service/FallaService";
-import { getVehiculos } from "../service/VehiculoService";
+import { useVehiculos } from "../context/VehiculoContext";
 
 export function MantenimientoPage() {
   const [show, setShow] = useState(false);
@@ -36,7 +36,7 @@ export function MantenimientoPage() {
 
   const [mantenimientos, setMantenimientos] = useState([]);
   const [fallas, setFallas] = useState([]);
-  const [vehiculos, setVehiculos] = useState([]);
+  const { vehiculos } = useVehiculos();
 
   const guardar = async () => {
     if (editando) {
@@ -63,10 +63,6 @@ export function MantenimientoPage() {
     const { data } = await getFallas();
     setFallas(data);
   };
-  const cargarVehiculos = async () => {
-    const { data } = await getVehiculos();
-    setVehiculos(data);
-  };
 
   const editar = (m) => {
     mostrarModal();
@@ -78,7 +74,6 @@ export function MantenimientoPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     cargarMantenimientos();
     cargarFallas();
-    cargarVehiculos();
   }, []);
 
   return (
