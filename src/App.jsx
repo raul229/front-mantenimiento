@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { Layout } from "./layout/Layout";
-import { HomePage } from "./page/HomePage";
-import { MantenimientoPage } from "./page/MantenimientoPage";
-import { FallaPage } from "./page/FallaPage";
-import { VehiculosProvider } from "./context/VehiculoContext";
-import { VehiculoPage } from "./page/VehiculoPage";
+import { Layout } from "@/layout/Layout";
+import { HomePage } from "@/page/mantenimiento/HomePage";
+import { MantenimientoPage } from "@/page/mantenimiento/MantenimientoPage";
+import { FallaPage } from "@/page/mantenimiento/FallaPage";
+import { VehiculosProvider } from "@/context/VehiculoContext";
+import { VehiculoPage } from "@/page/mantenimiento/VehiculoPage";
+import { ClientePage } from "@/page/ruta/ClientePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/mantenimientos" element={<MantenimientoPage />} />
           <Route path="/fallas" element={<FallaPage />} />
           <Route path="/vehiculos" element={<VehiculoPage />} />
+          <Route path="/clientes" element={<ClientePage />} />
         </Route>
       </Routes>
     </VehiculosProvider>
