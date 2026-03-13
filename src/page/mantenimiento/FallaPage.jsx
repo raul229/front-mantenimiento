@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { getFallas, createFalla, updateFalla, deleteFalla } from "../service/FallaService";
-import { useVehiculos } from "../context/VehiculoContext";
-import { guardarEntidad } from "../utils/guardarEntidad";
+import { getFallas, createFalla, updateFalla, deleteFalla } from "@/service/FallaService";
+import { useVehiculos } from "@/context/VehiculoContext";
+import { guardarEntidad } from "@/utils/guardarEntidad";
 
 export function FallaPage() {
   const [fallas, setFallas] = useState([]);

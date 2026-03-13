@@ -1,8 +1,8 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { useVehiculos } from "../context/VehiculoContext";
+import { useVehiculos } from "@/context/VehiculoContext";
 import { useEffect, useState } from "react";
-import { guardarEntidad } from "../utils/guardarEntidad";
-import { createVehiculo, deleteVehiculo, updateVehiculo } from "../service/VehiculoService";
+import { guardarEntidad } from "@/utils/guardarEntidad";
+import { createVehiculo, deleteVehiculo, updateVehiculo } from "@/service/VehiculoService";
 export function VehiculoPage() {
     const { vehiculos, cargarVehiculos } = useVehiculos();
     const [show, setShow] = useState(false);
@@ -17,6 +17,7 @@ export function VehiculoPage() {
     const [formulario, setFormulario] = useState(formularioInicial);
     const ocultarModal = () => setShow(false);
     const mostrarModal = () => setShow(true);
+
     const limpiarFormulario = () => {
         setFormulario(formularioInicial);
     };

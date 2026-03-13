@@ -5,10 +5,10 @@ import {
   createMantenimiento,
   updateMantenimiento,
   deleteMantenimiento,
-} from "../service/MantenimientoService";
-import { getFallas } from "../service/FallaService";
-import { useVehiculos } from "../context/VehiculoContext";
-import { guardarEntidad } from "../utils/guardarEntidad";
+} from "@/service/MantenimientoService";
+import { getFallas } from "@/service/FallaService";
+import { useVehiculos } from "@/context/VehiculoContext";
+import { guardarEntidad } from "@/utils/guardarEntidad";
 
 export function MantenimientoPage() {
   const [show, setShow] = useState(false);
