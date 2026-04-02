@@ -1,0 +1,15 @@
+import { NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+export function DropRuta() {
+    return (
+        <NavDropdown title="Rutas">
+            <NavDropdown.Item as={Link} to="/clientes">
+                Clientes
+            </NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={"/sedes"}>
+                Sedes
+            </NavDropdown.Item>
+        </NavDropdown>
+    )
+}

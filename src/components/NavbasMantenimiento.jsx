@@ -1,5 +1,7 @@
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { DropMantenimiento } from "./Dropdown/DropMantenimiento";
+import { DropRuta } from "./Dropdown/DropRuta";
 
 export function NavbarMantenimiento() {
   return (
@@ -14,23 +16,9 @@ export function NavbarMantenimiento() {
             <Nav.Link as={Link} to="/">
               Inicio
             </Nav.Link>
-            <NavDropdown title="Mantenimiento">
-              <NavDropdown.Item as={Link} to="/mantenimientos">
-                Mantenimientos
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/fallas">
-                Fallas
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/vehiculos">
-                Vehiculos
-              </NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="Rutas">
-              <NavDropdown.Item as={Link} to="/clientes">
-                Clientes
-              </NavDropdown.Item>
-            </NavDropdown>
-
+            {/* impoportamos los dropdown de cada modulo */}
+            <DropMantenimiento />
+            <DropRuta />
           </Nav>
         </Navbar.Collapse>
       </Container>

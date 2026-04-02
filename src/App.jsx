@@ -6,6 +6,7 @@ import { FallaPage } from "@/page/mantenimiento/FallaPage";
 import { VehiculosProvider } from "@/context/VehiculoContext";
 import { VehiculoPage } from "@/page/mantenimiento/VehiculoPage";
 import { ClientePage } from "@/page/ruta/ClientePage";
+import { SedePage } from "@/page/ruta/Sede.Page";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/fallas" element={<FallaPage />} />
           <Route path="/vehiculos" element={<VehiculoPage />} />
           <Route path="/clientes" element={<ClientePage />} />
+          <Route path="/sedes" element={<SedePage />} />
         </Route>
       </Routes>
     </VehiculosProvider>
