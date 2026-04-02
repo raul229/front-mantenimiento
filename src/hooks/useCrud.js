@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback} from "react";
 
 export function useCrud(service) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const cargarDatos = async () => {
+  const cargarDatos = useCallback(async () => {
     setLoading(true);
-
     const response = await service.getAll();
     setData(response.data);
     setLoading(false);
-  };
+  }, [service])
 
   const crear = async (nuevo) => {
     await service.create(nuevo);
@@ -29,7 +28,7 @@ export function useCrud(service) {
 
   useEffect(() => {
     cargarDatos();
-  }, []);
+  }, [cargarDatos]);
 
-  return { data, loading, cargarDatos, crear, actualizar, eliminar };
+  return { data, loading, crear, actualizar, eliminar };
 }

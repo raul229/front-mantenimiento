@@ -1,54 +1,38 @@
-import { Button, Form, Modal, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useCrud } from "@/hooks/useCrud";
 import { ClienteService } from "@/service/ClienteService"
-import { useState } from "react";
-import { guardarEntidad } from "@/utils/guardarEntidad";
+import { useModal } from "@/hooks/useModal";
+import { ClienteModal } from "./modals/ClienteModal";
+import { useForm } from "../../hooks/useForm";
 
 export function ClientePage() {
 
-    const { data: clientes, loading, cargarDatos, crear, actualizar, eliminar } = useCrud(ClienteService);
-
-    const [show, setShow] = useState(false);
-    const [editando, setEditando] = useState(false);
-
-    const ocultarModal = () => setShow(false);
-    const mostrarModal = () => setShow(true);
-
+    const { data: clientes, loading, crear, actualizar, eliminar } = useCrud(ClienteService);
 
     const formularioInicial = {
         numero_documento: "",
         nombres: "",
         apellido: "",
         contacto: "",
-    };
 
-    const [formulario, setFormulario] = useState(formularioInicial);
-
-    const limpiarFormulario = () => {
-        setFormulario(formularioInicial);
     };
+    const { show, ocultarModal, mostrarModal } = useModal();
+
+    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
 
     const guardar = () => {
-        guardarEntidad({
-            editando,
-            formulario,
-            create: crear,
-            update: actualizar,
-            recargarDatos: cargarDatos,
-            ocultarModal,
-        });
-    };
-
-    const eliminarCliente = async (id) => {
-        await eliminar(id);
-        cargarDatos();
-    };
-
-    const editarCliente = (cliente) => {
-        mostrarModal();
-        setEditando(true);
-        setFormulario(cliente);
-    };
+        try {
+            if (editando) {
+                actualizar(formulario.id, formulario);
+            } else {
+                crear(formulario);
+            }
+            limpiarFormulario();
+            ocultarModal();
+        } catch (error) {
+            console.error("Hubo un error al guardar el cliente", error);
+        }
+    }
 
     if (loading) {
         return <div>Cargando...</div>
@@ -60,7 +44,7 @@ export function ClientePage() {
             <Button
                 className="mb-3"
                 onClick={() => {
-                    limpiarFormulario();
+                    limpiarFormulario()
                     setEditando(false);
                     mostrarModal();
                 }}>
@@ -99,83 +83,14 @@ export function ClientePage() {
                     ))}
                 </tbody>
             </Table>
-            <Modal show={show} onHide={ocultarModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{editando ? "Editar" : "Nuevo"} Cliente    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Documento</Form.Label>
-                            <Form.Control
-                                value={formulario.numero_documento}
-                                onChange={(e) => {
-                                    setFormulario({
-                                        ...formulario,
-                                        numero_documento: e.target.value,
-                                    });
-                                }}
-                                type="text"
-                                placeholder="Documento..."
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Nombres</Form.Label>
-                            <Form.Control
-                                value={formulario.nombres}
-                                onChange={(e) => {
-                                    setFormulario({
-                                        ...formulario,
-                                        nombres: e.target.value,
-                                    });
-                                }}
-                                type="text"
-                                placeholder="Nombres..."
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Apellido</Form.Label>
-                            <Form.Control
-                                value={formulario.apellido}
-                                onChange={(e) => {
-                                    setFormulario({
-                                        ...formulario,
-                                        apellido: e.target.value,
-                                    });
-                                }}
-                                type="text"
-                                placeholder="Apellido..."
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Contacto</Form.Label>
-                            <Form.Control
-                                value={formulario.contacto}
-                                onChange={(e) => {
-                                    setFormulario({
-                                        ...formulario,
-                                        contacto: e.target.value,
-                                    });
-                                }}
-                                type="text"
-                                placeholder="Contacto..."
-                                required
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={ocultarModal}>
-                        Cerrar
-                    </Button>
-                    <Button variant="primary" onClick={guardar}>
-                        Guardar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <ClienteModal
+                show={show}
+                ocultarModal={ocultarModal}
+                editando={editando}
+                formulario={formulario}
+                setFormulario={setFormulario}
+                guardar={guardar}
+            />
         </>
     )
 }   
