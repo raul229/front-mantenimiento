@@ -1,13 +1,17 @@
+import { useCrud } from "./useCrud";
+import { useForm } from "./useForm";
+import { useModal } from "./useModal";
+
 export function useCrudPage({ service, formularioInicial }) {
     const { data, loading, crear, actualizar, eliminar } = useCrud(service);
     const { show, ocultarModal, mostrarModal } = useModal();
     const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
-    const guardar = () => {
+    const guardar = async () => {
         try {
             if (editando) {
-                actualizar(formulario.id, formulario);
+                await actualizar(formulario.id, formulario);
             } else {
-                crear(formulario);
+                await crear(formulario);
             }
             limpiarFormulario();
             ocultarModal();
@@ -15,14 +19,9 @@ export function useCrudPage({ service, formularioInicial }) {
             console.error("Hubo un error al guardar", error);
         }
     }
-    if (loading) {
-        return <div>Cargando...</div>
-    }
     return {
         data,
         loading,
-        crear,
-        actualizar,
         eliminar,
         show,
         ocultarModal,
