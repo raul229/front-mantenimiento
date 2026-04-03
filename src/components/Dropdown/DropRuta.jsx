@@ -13,6 +13,9 @@ export function DropRuta() {
             <NavDropdown.Item as={Link} to={"/ciudades"}>
                 Ciudades
             </NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={"/celulares"}>
+                Celulares
+            </NavDropdown.Item>
         </NavDropdown>
     )
 }

@@ -8,6 +8,7 @@ import { VehiculoPage } from "@/page/mantenimiento/VehiculoPage";
 import { ClientePage } from "@/page/ruta/ClientePage";
 import { SedePage } from "@/page/ruta/SedePage";
 import { CiudadPage } from "@/page/ruta/CiudadPage";
+import { CelularPage } from "@/page/ruta/CelularPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/clientes" element={<ClientePage />} />
           <Route path="/sedes" element={<SedePage />} />
           <Route path="/ciudades" element={<CiudadPage />} />
+          <Route path="/celulares" element={<CelularPage />} />
         </Route>
       </Routes>
     </VehiculosProvider>
