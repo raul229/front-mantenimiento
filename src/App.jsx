@@ -6,7 +6,7 @@ import { FallaPage } from "@/page/mantenimiento/FallaPage";
 import { VehiculosProvider } from "@/context/VehiculoContext";
 import { VehiculoPage } from "@/page/mantenimiento/VehiculoPage";
 import { ClientePage } from "@/page/ruta/ClientePage";
-import { SedePage } from "@/page/ruta/Sede.Page";
+import { SedePage } from "@/page/ruta/SedePage";
 
 function App() {
   return (
