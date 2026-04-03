@@ -1,6 +1,9 @@
 import { Button, Form, Modal } from "react-bootstrap";
+import { useCrud } from "@/hooks/useCrud";
+import { PersonaService } from "@/service/PersonaService";
 
 export function ClienteModal({ show, ocultarModal, editando, formulario, setFormulario, guardar }) {
+    const { data: personas } = useCrud(PersonaService);
 
     return (
         <Modal show={show} onHide={ocultarModal}>
@@ -10,7 +13,7 @@ export function ClienteModal({ show, ocultarModal, editando, formulario, setForm
             <Modal.Body>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Documento</Form.Label>
+                        <Form.Label>Numero documento</Form.Label>
                         <Form.Control
                             value={formulario.numero_documento}
                             onChange={(e) => {
@@ -20,54 +23,46 @@ export function ClienteModal({ show, ocultarModal, editando, formulario, setForm
                                 });
                             }}
                             type="text"
-                            placeholder="Documento..."
+                            placeholder="Numero documento..."
                             required
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Nombres</Form.Label>
+                        <Form.Label>Razon social</Form.Label>
                         <Form.Control
-                            value={formulario.nombres}
+                            value={formulario.razon_social}
                             onChange={(e) => {
                                 setFormulario({
                                     ...formulario,
-                                    nombres: e.target.value,
+                                    razon_social: e.target.value,
                                 });
                             }}
                             type="text"
-                            placeholder="Nombres..."
+                            placeholder="Razon social..."
                             required
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Apellido</Form.Label>
-                        <Form.Control
-                            value={formulario.apellido}
+                        <Form.Label>Persona</Form.Label>
+                        <Form.Select
+                            value={formulario.persona}
                             onChange={(e) => {
                                 setFormulario({
                                     ...formulario,
-                                    apellido: e.target.value,
+                                    persona: Number(e.target.value),
                                 });
                             }}
                             type="text"
-                            placeholder="Apellido..."
+                            placeholder="Persona..."
                             required
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Contacto</Form.Label>
-                        <Form.Control
-                            value={formulario.contacto}
-                            onChange={(e) => {
-                                setFormulario({
-                                    ...formulario,
-                                    contacto: e.target.value,
-                                });
-                            }}
-                            type="text"
-                            placeholder="Contacto..."
-                            required
-                        />
+                        >
+                            <option value="">Seleccione</option>
+                            {personas.map((persona) => (
+                                <option key={persona.id} value={persona.id}>
+                                    {persona.nombre}
+                                </option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
                 </Form>
             </Modal.Body>

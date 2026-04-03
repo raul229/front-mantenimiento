@@ -3,17 +3,18 @@ import { useCrud } from "@/hooks/useCrud";
 import { ClienteService } from "@/service/ClienteService"
 import { useModal } from "@/hooks/useModal";
 import { ClienteModal } from "./modals/ClienteModal";
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "@/hooks/useForm";
+import { PersonaService } from "@/service/PersonaService";
 
 export function ClientePage() {
 
     const { data: clientes, loading, crear, actualizar, eliminar } = useCrud(ClienteService);
+    const { data: personas } = useCrud(PersonaService);
 
     const formularioInicial = {
         numero_documento: "",
-        nombres: "",
-        apellido: "",
-        contacto: "",
+        razon_social: "",
+        persona: "",
 
     };
     const { show, ocultarModal, mostrarModal } = useModal();
@@ -53,20 +54,18 @@ export function ClientePage() {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Documento</th>
-                        <th>Nombres</th>
-                        <th>Contacto</th>
+                        <th>Razon Social</th>
+                        <th>Persona</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {clientes.map((cliente) => (
                         <tr key={cliente.id}>
-                            <td>{cliente.id}</td>
                             <td>{cliente.numero_documento}</td>
-                            <td>{cliente.nombres} {cliente.apellido}</td>
-                            <td>{cliente.contacto}</td>
+                            <td>{cliente.razon_social}</td>
+                            <td>{personas.find((p) => p.id == cliente.persona)?.nombre}</td>
                             <td>
                                 <Button variant="warning" className="me-3" onClick={() => {
                                     setEditando(true);
