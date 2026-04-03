@@ -7,6 +7,7 @@ import { VehiculosProvider } from "@/context/VehiculoContext";
 import { VehiculoPage } from "@/page/mantenimiento/VehiculoPage";
 import { ClientePage } from "@/page/ruta/ClientePage";
 import { SedePage } from "@/page/ruta/SedePage";
+import { CiudadPage } from "@/page/ruta/CiudadPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/vehiculos" element={<VehiculoPage />} />
           <Route path="/clientes" element={<ClientePage />} />
           <Route path="/sedes" element={<SedePage />} />
+          <Route path="/ciudades" element={<CiudadPage />} />
         </Route>
       </Routes>
     </VehiculosProvider>
