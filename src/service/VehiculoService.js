@@ -1,9 +1,9 @@
 import api from "./AxiosConfig";
 export const VehiculoService = {
-  getAll(){
+  getAll() {
     return api.get("/vehiculos/");
   },
-  create(vehiculo){
+  create(vehiculo) {
     return api.post("/vehiculos/",vehiculo);
   },
   update(id,vehiculo){

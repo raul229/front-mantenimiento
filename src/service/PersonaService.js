@@ -1,16 +1,16 @@
 import api from "./AxiosConfig"
 
 export const PersonaService = {
-    getAll: async () => {
-        return await api.get("/personas/");
+    getAll() {
+        return api.get("/personas/");
     },
-    create: async (persona) => {
-        return await api.post("/personas/", persona);
+    create(persona) {
+        return api.post("/personas/", persona);
     },
-    update: async (id, persona) => {
-        return await api.put(`/personas/${id}/`, persona);
+    update(id, persona) {
+        return api.put(`/personas/${id}/`, persona);
     },
-    remove: async (id) => {
-        return await api.delete(`/personas/${id}/`);
+    remove(id) {
+        return api.delete(`/personas/${id}/`);
     }
 }
