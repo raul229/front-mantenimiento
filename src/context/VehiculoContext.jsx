@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { getVehiculos } from "../service/VehiculoService";
+import { VehiculoService } from "@/service/VehiculoService";
 
 const Vehiculocontext = createContext();
 
@@ -11,7 +11,7 @@ export function VehiculosProvider({ children }) {
     }, []);
 
     const cargarVehiculos = async () => {
-        const { data } = await getVehiculos();
+        const { data } = await VehiculoService.getAll();
         setVehiculos(data);
     };
 

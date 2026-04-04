@@ -2,10 +2,12 @@ import { Button, Form, Modal } from "react-bootstrap"
 import { ClienteService } from "@/service/ClienteService"
 import { useCrud } from "@/hooks/useCrud"
 import { CiudadService } from "@/service/CiudadService"
+import { PersonaService } from "@/service/PersonaService"
 
 export function SedeModal({ show, ocultarModal, editando, formulario, setFormulario, guardar }) {
     const { data: clientes } = useCrud(ClienteService)
     const { data: ciudades } = useCrud(CiudadService)
+    const { data: personas } = useCrud(PersonaService)
     return (<Modal show={show} onHide={ocultarModal} >
 
 
@@ -61,19 +63,24 @@ export function SedeModal({ show, ocultarModal, editando, formulario, setFormula
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Contacto</Form.Label>
-                    <Form.Control
-                        value={formulario.contacto}
+                    <Form.Label>Persona</Form.Label>
+                    <Form.Select
+                        value={formulario.persona}
                         onChange={(e) => {
                             setFormulario({
                                 ...formulario,
-                                contacto: e.target.value,
+                                persona: Number(e.target.value),
                             });
                         }}
-                        type="text"
-                        placeholder="Contacto..."
                         required
-                    />
+                    >
+                        <option value={null}>Seleccione</option>
+                        {personas.map((persona) => (
+                            <option key={persona.id} value={persona.id}>
+                                {persona.nombre}
+                            </option>
+                        ))}
+                    </Form.Select>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Cliente</Form.Label>
@@ -87,10 +94,10 @@ export function SedeModal({ show, ocultarModal, editando, formulario, setFormula
                         }}
                         required
                     >
-                        <option value="">Seleccione</option>
+                        <option value={null}>Seleccione</option>
                         {clientes.map((cliente) => (
                             <option key={cliente.id} value={cliente.id}>
-                                {cliente.nombres}
+                                {cliente.razon_social}
                             </option>
                         ))}
                     </Form.Select>

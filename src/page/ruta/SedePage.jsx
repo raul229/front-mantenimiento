@@ -6,11 +6,13 @@ import { Button, Table } from "react-bootstrap";
 import { SedeModal } from "@/page/ruta/modals/SedeModal";
 import { ClienteService } from "@/service/ClienteService"
 import { CiudadService } from "@/service/CiudadService";
+import { PersonaService } from "@/service/PersonaService";
 
 export function SedePage() {
     const { data: sedes, loading, crear, actualizar, eliminar } = useCrud(SedeService)
     const { data: clientes } = useCrud(ClienteService)
     const { data: ciudades } = useCrud(CiudadService)
+    const { data: personas } = useCrud(PersonaService)
     const { show, ocultarModal, mostrarModal } = useModal();
 
     const formularioInicial = {
@@ -18,9 +20,9 @@ export function SedePage() {
         nombre: "",
         direccion: "",
         coordenadas: "",
-        contacto: "",
         cliente: "",
         ciudad: "",
+        persona: "",
     }
     const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
 
@@ -60,21 +62,21 @@ export function SedePage() {
                         <th>Nombre</th>
                         <th>Direccion</th>
                         <th>Coordenadas</th>
-                        <th>Contacto</th>
                         <th>Cliente</th>
                         <th>Ciudad</th>
+                        <th>Persona</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {sedes.map((sede) => (
-                        <tr key={sede.nombre}>
+                        <tr key={sede.id}>
                             <td>{sede.nombre}</td>
                             <td>{sede.direccion}</td>
                             <td>{sede.coordenadas}</td>
-                            <td>{sede.contacto}</td>
-                            <td>{clientes.find((c) => c.id === sede.cliente)?.nombres}</td>
+                            <td>{clientes.find((c) => c.id === sede.cliente)?.razon_social}</td>
                             <td>{ciudades.find((c) => c.id === sede.ciudad)?.nombre}</td>
+                            <td>{personas.find((p) => p.id === sede.persona)?.nombre}</td>
                             <td>
                                 <Button variant="warning" className="me-3" onClick={() => {
                                     setEditando(true);

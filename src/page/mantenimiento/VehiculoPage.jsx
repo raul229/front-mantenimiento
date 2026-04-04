@@ -1,12 +1,8 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { useVehiculos } from "@/context/VehiculoContext";
-import { useEffect, useState } from "react";
-import { guardarEntidad } from "@/utils/guardarEntidad";
-import { createVehiculo, deleteVehiculo, updateVehiculo } from "@/service/VehiculoService";
+import { VehiculoService } from "@/service/VehiculoService";
+import { useCrudPage } from "@/hooks/useCrudPage";
 export function VehiculoPage() {
-    const { vehiculos, cargarVehiculos } = useVehiculos();
-    const [show, setShow] = useState(false);
-    const [editando, setEditando] = useState(false);
+
     const formularioInicial = {
         marca: "",
         modelo: "",
@@ -14,36 +10,18 @@ export function VehiculoPage() {
         carga_neta_kg: "",
         estado: "",
     };
-    const [formulario, setFormulario] = useState(formularioInicial);
-    const ocultarModal = () => setShow(false);
-    const mostrarModal = () => setShow(true);
+    const { data: vehiculos, loading, eliminar, show, ocultarModal, mostrarModal, formulario, setFormulario, limpiarFormulario, editando, setEditando, guardar } = useCrudPage({ service: VehiculoService, formularioInicial });
 
-    const limpiarFormulario = () => {
-        setFormulario(formularioInicial);
-    };
-    const guardar = () => {
-        guardarEntidad({
-            editando,
-            formulario,
-            create: createVehiculo,
-            update: updateVehiculo,
-            recargarDatos: cargarVehiculos,
-            ocultarModal,
-        });
-    };
+
     const editar = (vehiculo) => {
         mostrarModal();
         setEditando(true);
         setFormulario(vehiculo);
     };
-    const eliminar = async (id) => {
-        await deleteVehiculo(id);
-        cargarVehiculos();
-    };
+    if (loading) {
+        return <div>Cargando...</div>
+    }
 
-    useEffect(() => {
-        cargarVehiculos();
-    }, []);
     return (
         <>
             <h1>Vehiculos</h1>
