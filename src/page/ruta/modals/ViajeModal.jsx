@@ -33,19 +33,33 @@ export function ViajeModal({ show, ocultarModal, guardar, formulario, setFormula
             </Form.Group>
             <Form.Group>
                 <Form.Label>Fecha Inicio</Form.Label>
-                <Form.Control type="date" placeholder="Ingrese la fecha de inicio" value={formulario.fecha_inicio} onChange={(e) => setFormulario({ ...formulario, fecha_inicio: e.target.value })} />
+                <Form.Control
+                    type="date"
+                    placeholder="Ingrese la fecha de inicio"
+                    value={formulario.fecha_inicio}
+                    onChange={(e) => setFormulario({ ...formulario, fecha_inicio: e.target.value })} />
             </Form.Group>
             <Form.Group>
                 <Form.Label>Fecha Fin</Form.Label>
-                <Form.Control type="date" placeholder="Ingrese la fecha de fin" />
+                <Form.Control
+                    type="date"
+                    placeholder="Ingrese la fecha de fin"
+                    value={formulario.fecha_fin}
+                    onChange={(e) => setFormulario({ ...formulario, fecha_fin: e.target.value })} />
             </Form.Group>
             <Form.Group>
                 <Form.Label>Observaciones</Form.Label>
-                <Form.Control type="text" placeholder="Ingrese las observaciones" />
+                <Form.Control
+                    type="text"
+                    placeholder="Ingrese las observaciones"
+                    value={formulario.observaciones}
+                    onChange={(e) => setFormulario({ ...formulario, observaciones: e.target.value })} />
             </Form.Group>
             <Form.Group>
                 <Form.Label>Vehiculo</Form.Label>
-                <Form.Select value={formulario.vehiculo} onChange={(e) => setFormulario({ ...formulario, vehiculo: e.target.value })}>
+                <Form.Select
+                    value={formulario.vehiculo}
+                    onChange={(e) => setFormulario({ ...formulario, vehiculo: e.target.value })}>
                     <option value="">Seleccione</option>
                     {vehiculos.map((vehiculo) => (
                         <option key={vehiculo.id} value={vehiculo.id}>{vehiculo.marca}</option>
