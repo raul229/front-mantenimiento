@@ -11,6 +11,7 @@ import { CiudadPage } from "@/page/ruta/CiudadPage";
 import { CelularPage } from "@/page/ruta/CelularPage";
 import { PersonaPage } from "@/page/ruta/PersonaPage";
 import { RutaPage } from "@/page/ruta/RutaPage";
+import { RecojoPage } from "@/page/ruta/RecojoPage";
 import { ViajePage } from "@/page/ruta/ViajePage";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/celulares" element={<CelularPage />} />
           <Route path="/personas" element={<PersonaPage />} />
           <Route path="/rutas" element={<RutaPage />} />
+          <Route path="/recojos" element={<RecojoPage />} />
           <Route path="/viajes" element={<ViajePage />} />
         </Route>
       </Routes>
