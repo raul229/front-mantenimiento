@@ -2,6 +2,7 @@ import { useCrudPage } from "@/hooks/useCrudPage";
 import { useCrud } from "@/hooks/useCrud";
 import { PersonaService } from "@/service/PersonaService";
 import { CelularService } from "@/service/CelularService";
+import { ClienteService } from "@/service/ClienteService";
 import { Button, Table } from "react-bootstrap";
 import { BotonNuevo } from "@/components/BotonNuevo";
 import { PersonaModal } from "./modals/PersonaModal";
@@ -12,7 +13,8 @@ export function PersonaPage() {
         apellido_paterno: "",
         apellido_materno: "",
         cargo: "",
-        celular: "",
+        cliente: "",
+        celulares: [""]
     }
     const {
         data: personas,
@@ -29,11 +31,13 @@ export function PersonaPage() {
         guardar } = useCrudPage({ service: PersonaService, formularioInicial });
 
     const { data: celulares } = useCrud(CelularService);
+    const { data: clientes } = useCrud(ClienteService);
 
 
     if (loading) {
         return <div>Cargando...</div>
     }
+
     return (
         <>
             <h1>Personas</h1>
@@ -48,7 +52,8 @@ export function PersonaPage() {
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Cargo</th>
-                        <th>Celular</th>
+                        <th>Cliente</th>
+                        <th>Celulares</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -58,11 +63,22 @@ export function PersonaPage() {
                             <td>{persona.nombre}</td>
                             <td>{persona.apellido_paterno} {persona.apellido_materno}</td>
                             <td>{persona.cargo}</td>
-                            <td>{celulares.find((celular) => celular.id === persona.celular)?.numero}</td>
+                            <td>
+                                {clientes.find(c => c.id === persona.cliente)?.razon_social || "N/A"}
+                            </td>
+                            <td>
+                                {celulares?.filter(c => c?.persona === persona.id).map(c => c.numero).join(', ') || 'Sin celulares'}
+                            </td>
                             <td>
                                 <Button variant="warning" className="me-3" onClick={() => {
                                     setEditando(true);
-                                    setFormulario(persona);
+                                    // Obtener los números de celular de esta persona
+                                    const celularesPersona = celulares?.filter(c => c?.persona === persona.id).map(c => c.numero) || [];
+                                    setFormulario({
+                                        ...persona,
+                                        // Convertimos los celulares existentes a números, si no hay pasa array vacío
+                                        celulares: celularesPersona
+                                    });
                                     mostrarModal();
                                 }}>Editar</Button>
                                 <Button variant="danger" onClick={() => {
