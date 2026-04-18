@@ -30,5 +30,5 @@ export function useCrud(service) {
     cargarDatos();
   }, [cargarDatos]);
 
-  return { data, loading, crear, actualizar, eliminar };
+  return { data, loading, crear, actualizar, eliminar, cargarDatos };
 }

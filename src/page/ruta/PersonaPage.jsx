@@ -16,6 +16,8 @@ export function PersonaPage() {
         cliente: "",
         celulares: [""]
     }
+    const { data: celulares, cargarDatos: cargarCelulares } = useCrud(CelularService);
+    const { data: clientes } = useCrud(ClienteService);
     const {
         data: personas,
         loading,
@@ -28,10 +30,9 @@ export function PersonaPage() {
         limpiarFormulario,
         editando,
         setEditando,
-        guardar } = useCrudPage({ service: PersonaService, formularioInicial });
+        guardar
+    } = useCrudPage({ service: PersonaService, formularioInicial, actulizacionDatosSecundarios: cargarCelulares });
 
-    const { data: celulares } = useCrud(CelularService);
-    const { data: clientes } = useCrud(ClienteService);
 
 
     if (loading) {
