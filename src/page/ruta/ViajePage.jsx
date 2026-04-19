@@ -10,8 +10,7 @@ import { ViajeModal } from "./modals/ViajeModal";
 
 export function ViajePage() {
     const formularioInicial = {
-        kilometraje_inicio: "",
-        kilometraje_final: "",
+        kilometraje_final: null,
         estado: "",
         fecha_inicio: "",
         fecha_fin: "",

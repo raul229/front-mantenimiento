@@ -13,14 +13,11 @@ export function ViajeModal({ show, ocultarModal, guardar, formulario, setFormula
         guardar={guardar}
         titulo="Viaje">
         <Form>
-            <Form.Group>
-                <Form.Label>Kilometraje Inicio</Form.Label>
-                <Form.Control type="number" placeholder="Ingrese el kilometraje de inicio" value={formulario.kilometraje_inicio} onChange={(e) => setFormulario({ ...formulario, kilometraje_inicio: e.target.value })} />
-            </Form.Group>
-            <Form.Group>
+            {editando && (<Form.Group>
                 <Form.Label>Kilometraje Final</Form.Label>
                 <Form.Control type="number" placeholder="Ingrese el kilometraje final" value={formulario.kilometraje_final} onChange={(e) => setFormulario({ ...formulario, kilometraje_final: e.target.value })} />
             </Form.Group>
+            )}
             <Form.Group>
                 <Form.Label>Estado</Form.Label>
                 <Form.Select value={formulario.estado} onChange={(e) => setFormulario({ ...formulario, estado: e.target.value })}>
