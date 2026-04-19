@@ -5,14 +5,9 @@ import { useCrud } from "@/hooks/useCrud"
 import { BotonNuevo } from "@/components/BotonNuevo"
 import { Button, Table } from "react-bootstrap"
 import { RutaModal } from "./modals/RutaModal"
+import { formularioRuta } from "@/formularios/formInicial";
 
 export function RutaPage() {
-
-    const formularioInicial = {
-        nombre: "",
-        descripcion: "",
-        sedes: [],
-    }
 
     const {
         data: rutas,
@@ -27,7 +22,7 @@ export function RutaPage() {
         editando,
         setEditando,
         guardar
-    } = useCrudPage({ service: RutaService, formularioInicial })
+    } = useCrudPage({ service: RutaService, formularioInicial: formularioRuta });
     const { data: sedes } = useCrud(SedeService);
 
     if (loading) {

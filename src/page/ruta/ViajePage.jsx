@@ -7,18 +7,9 @@ import { Table } from "react-bootstrap";
 import { BotonNuevo } from "@/components/BotonNuevo";
 import { Button } from "react-bootstrap";
 import { ViajeModal } from "./modals/ViajeModal";
+import { formularioViaje } from "@/formularios/formInicial";
 
 export function ViajePage() {
-    const formularioInicial = {
-        kilometraje_final: null,
-        estado: "",
-        fecha_inicio: "",
-        fecha_fin: "",
-        observaciones: "",
-        vehiculo: "",
-        conductor: "",
-        ruta: "",
-    }
     const { data: vehiculos } = useCrud(VehiculoService);
     const { data: rutas } = useCrud(RutaService);
     const {
@@ -34,7 +25,7 @@ export function ViajePage() {
         editando,
         setEditando,
         guardar
-    } = useCrudPage({ service: ViajeService, formularioInicial });
+    } = useCrudPage({ service: ViajeService, formularioInicial: formularioViaje });
 
     if (loading) {
         return <div>Cargando...</div>

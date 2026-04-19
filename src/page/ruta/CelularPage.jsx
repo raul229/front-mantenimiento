@@ -2,12 +2,10 @@ import { useCrudPage } from "@/hooks/useCrudPage";
 import { CelularService } from "@/service/CelularService";
 import { Button, Table } from "react-bootstrap";
 import { CelularModal } from "./modals/CelularModal";
+import { formularioCelular } from "@/formularios/formInicial";
 
 export function CelularPage() {
-    const formularioInicial = {
-        numero: "",
 
-    }
     const {
         data: celulares,
         loading,
@@ -20,7 +18,7 @@ export function CelularPage() {
         limpiarFormulario,
         editando,
         setEditando,
-        guardar } = useCrudPage({ service: CelularService, formularioInicial });
+        guardar } = useCrudPage({ service: CelularService, formularioInicial: formularioCelular });
 
     if (loading) {
         return <div>Cargando...</div>

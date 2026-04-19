@@ -4,15 +4,12 @@ import { CiudadModal } from "./modals/CiudadModal";
 import { useModal } from "@/hooks/useModal";
 import { useForm } from "@/hooks/useForm";
 import { Button, Table } from "react-bootstrap";
+import { formularioCiudad } from "@/formularios/formInicial";
+
 export function CiudadPage() {
     const { data: ciudades, loading, crear, actualizar, eliminar } = useCrud(CiudadService);
     const { show, ocultarModal, mostrarModal } = useModal();
-    const formularioInicial = {
-        nombre: "",
-        distrito: "",
-        departamento: ""
-    };
-    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
+    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial: formularioCiudad });
     const guardar = () => {
         try {
             if (editando) {

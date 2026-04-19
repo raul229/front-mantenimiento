@@ -7,6 +7,7 @@ import { SedeModal } from "@/page/ruta/modals/SedeModal";
 import { ClienteService } from "@/service/ClienteService"
 import { CiudadService } from "@/service/CiudadService";
 import { PersonaService } from "@/service/PersonaService";
+import { formularioSede } from "@/formularios/formInicial";
 
 export function SedePage() {
     const { data: sedes, loading, crear, actualizar, eliminar } = useCrud(SedeService)
@@ -15,16 +16,7 @@ export function SedePage() {
     const { data: personas } = useCrud(PersonaService)
     const { show, ocultarModal, mostrarModal } = useModal();
 
-    const formularioInicial = {
-        // necesitamos contexto de ciudad y cliente
-        nombre: "",
-        direccion: "",
-        coordenadas: "",
-        cliente: "",
-        ciudad: "",
-        persona: "",
-    }
-    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
+    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial: formularioSede });
 
     const guardar = () => {
         try {

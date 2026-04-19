@@ -6,16 +6,10 @@ import { ClienteService } from "@/service/ClienteService";
 import { Button, Table } from "react-bootstrap";
 import { BotonNuevo } from "@/components/BotonNuevo";
 import { PersonaModal } from "./modals/PersonaModal";
+import { formularioPersona } from "@/formularios/formInicial";
 
 export function PersonaPage() {
-    const formularioInicial = {
-        nombre: "",
-        apellido_paterno: "",
-        apellido_materno: "",
-        cargo: "",
-        cliente: "",
-        celulares: [""]
-    }
+
     const { data: celulares, cargarDatos: cargarCelulares } = useCrud(CelularService);
     const { data: clientes } = useCrud(ClienteService);
     const {
@@ -31,7 +25,7 @@ export function PersonaPage() {
         editando,
         setEditando,
         guardar
-    } = useCrudPage({ service: PersonaService, formularioInicial, actulizacionDatosSecundarios: cargarCelulares });
+    } = useCrudPage({ service: PersonaService, formularioInicial: formularioPersona, actulizacionDatosSecundarios: cargarCelulares });
 
 
 

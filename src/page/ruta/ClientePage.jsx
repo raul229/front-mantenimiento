@@ -5,21 +5,16 @@ import { useModal } from "@/hooks/useModal";
 import { ClienteModal } from "./modals/ClienteModal";
 import { useForm } from "@/hooks/useForm";
 import { PersonaService } from "@/service/PersonaService";
+import { formularioCliente } from "@/formularios/formInicial";
 
 export function ClientePage() {
 
     const { data: clientes, loading, crear, actualizar, eliminar } = useCrud(ClienteService);
     const { data: personas } = useCrud(PersonaService);
 
-    const formularioInicial = {
-        numero_documento: "",
-        razon_social: "",
-        persona: "",
-
-    };
     const { show, ocultarModal, mostrarModal } = useModal();
 
-    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial });
+    const { formulario, setFormulario, limpiarFormulario, editando, setEditando } = useForm({ formularioInicial: formularioCliente });
 
     const guardar = () => {
         try {

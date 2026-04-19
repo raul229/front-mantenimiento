@@ -6,15 +6,10 @@ import { SedeService } from "@/service/SedeService";
 import { BotonNuevo } from "@/components/BotonNuevo";
 import { Button, Table } from "react-bootstrap";
 import { RecojoModal } from "./modals/RecojoModal";
+import { formularioRecojo } from "@/formularios/formInicial";
 
 export function RecojoPage() {
-    const formularioInicial = {
-        viaje: "",
-        sede: "",
-        peso_kg: "",
-        fecha: "",
-        observaciones: "",
-    };
+
 
     const {
         data: recojos,
@@ -29,7 +24,7 @@ export function RecojoPage() {
         editando,
         setEditando,
         guardar,
-    } = useCrudPage({ service: RecojoService, formularioInicial });
+    } = useCrudPage({ service: RecojoService, formularioInicial: formularioRecojo });
 
     const { data: sedes, loading: loadingSedes } = useCrud(SedeService);
     const { data: viajes, loading: loadingViajes } = useCrud(ViajeService);
