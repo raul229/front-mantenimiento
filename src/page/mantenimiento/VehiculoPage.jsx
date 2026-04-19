@@ -41,6 +41,7 @@ export function VehiculoPage() {
                         <th>Modelo</th>
                         <th>Placa</th>
                         <th>Carga Neta (kg)</th>
+                        <th>Kilometraje actual</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -52,6 +53,7 @@ export function VehiculoPage() {
                             <td>{vehiculo.modelo}</td>
                             <td>{vehiculo.placa}</td>
                             <td>{vehiculo.carga_neta_kg}</td>
+                            <td>{vehiculo.kilometraje_actual}</td>
                             <td>{vehiculo.estado}</td>
                             <td>
                                 <Button variant="warning" className="me-3" onClick={() => editar(vehiculo)}>Editar</Button>
